@@ -34,8 +34,6 @@ SistLinear_t *alocaSistLinear(unsigned int nx, unsigned int ny)
 	SistLinear_t *SL = (SistLinear_t *)malloc(sizeof(SistLinear_t));
 	if (SL)
 	{
-		//SL->b = (real_t *)malloc(((nx+2)*(ny+2)) * sizeof(real_t));
-		//SL->x = (real_t *)malloc(((nx+2)*(ny+2)) * sizeof(real_t));
 		SL->b = (real_t *)aligned_alloc(8, ((nx+2)*(ny+2)) * sizeof(real_t));
 		SL->x = (real_t *)aligned_alloc(8, ((nx+2)*(ny+2)) * sizeof(real_t));
 		
@@ -146,10 +144,7 @@ int gaussSeidel(SistLinear_t *SL, int maxIter, Metrica *P)
 	int ny = SL->ny;
 
 	Xi = SL->x;
-/*
-	double tempo = 0.0;
-	double tempof = 0.0;
-	double tempoFim = 0.0; */
+
 	double somaTempo = 0.0;
 	int index, index_iafast, index_safast;
 	contorno_x(SL);
@@ -230,15 +225,8 @@ double normaL2Residuo(SistLinear_t *SL)
 
 	real_t *Xi = SL->x;
 	real_t *Bi = SL->b;
-	//tam = (SL->nx + 2) * (SL->ny + 2);
-
-	//R = (real_t *)malloc(tam * sizeof(real_t));
-	//R = (real_t *)aligned_alloc(8, (tam) * sizeof(real_t));
-	
-	//for (unsigned int i = 0; i < tam; ++i)
-	//	R[i] = 0.0;
-
 	real_t soma = 0.0;
+	
 	int index, index_iafast, index_safast;
 
 	for(unsigned int i = 1; i < (nx+1); ++i){
@@ -261,11 +249,8 @@ double normaL2Residuo(SistLinear_t *SL)
 			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
 			soma += xk*xk;
 			++j;
-			
-			//R[(i*(ny+2)) + j] = xk;
-			
+						
 		}
 	}
-	//free(R);
 	return sqrt(soma);
 }
