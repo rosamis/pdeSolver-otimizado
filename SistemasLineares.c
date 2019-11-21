@@ -156,17 +156,14 @@ int gaussSeidel(SistLinear_t *SL, int maxIter, Metrica *P)
 		#endif
 		for(unsigned int i = 1; i < (nx+1); ++i){
 			for(unsigned int j = 1; j < (ny+1); ++j){
-				index = i*(ny+2);
-				index_iafast = (i-1)*(ny+2);
-				index_safast = (i+1)*(ny+2);
-				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;	
-				++j;
-				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;	
-				++j;
-				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;	
-				++j;
-				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;	
-				++j;
+				index = (i*(ny+2));
+				index_iafast = ((i-1)*(ny+2));
+				index_safast = ((i+1)*(ny+2));
+				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;++j;
+				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;++j;
+				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;++j;
+				Xi[index + j] = SL->b[index + j] - ((Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j])) / Dp;++j;
+				
 			}
 		}
 		#ifdef gaussTEMPO
@@ -225,8 +222,8 @@ double normaL2Residuo(SistLinear_t *SL)
 
 	real_t *Xi = SL->x;
 	real_t *Bi = SL->b;
+
 	real_t soma = 0.0;
-	
 	int index, index_iafast, index_safast;
 
 	for(unsigned int i = 1; i < (nx+1); ++i){
@@ -234,9 +231,6 @@ double normaL2Residuo(SistLinear_t *SL)
 			index = i*(ny+2);	
 			index_iafast = ((i-1)*(ny+2));
 			index_safast = ((i+1)*(ny+2));	
-			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
-			soma += xk*xk;
-			++j;
 
 			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
 			soma += xk*xk;
@@ -245,11 +239,15 @@ double normaL2Residuo(SistLinear_t *SL)
 			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
 			soma += xk*xk;
 			++j;
+			
+			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
+			soma += xk*xk;
+			++j;			
 
 			xk = Bi[index + j] - (Di * Xi[index + j - 1]) - (Dia * Xi[index_iafast + j]) - (Ds * Xi[index + j + 1]) - (Dsa * Xi[index_safast + j]) - (Dp * Xi[index + j]);
 			soma += xk*xk;
 			++j;
-						
+									
 		}
 	}
 	return sqrt(soma);
