@@ -151,7 +151,7 @@ do
                 echo "set ylabel 'INDICADOR DO TESTE.'" >> gnu$dado$funcao.gnu
                 echo "set logscale" >> gnu$dado$funcao.gnu
                 echo "set output 'imagem$dado$funcao.jpeg'" >> gnu$dado$funcao.gnu
-                echo "plot 'plot$dado$funcao.txt' title 'T2' with lines, 'plot0$dados$funcao.txt' title 'T1' with lines" >> gnu$dado$funcao.gnu
+                echo "plot 'plot$dado$funcao.txt' title 'T2' with lines, 'plot0$dado$funcao.txt' title 'T1' with lines" >> gnu$dado$funcao.gnu
                 gnuplot -e "load 'gnu$dado$funcao.gnu'; exit"
                 mv imagem$dado$funcao.jpeg $funcao/	
             done
