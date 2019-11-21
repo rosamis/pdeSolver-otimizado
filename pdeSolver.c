@@ -242,32 +242,21 @@ int main(int argc, char *argv[])
     LIKWID_MARKER_STOP("Gauss");
     #endif
 
-     #ifdef normaL2
+    #ifdef normaL2
     int ret = gaussSeidel(SL,maxIter,P);
-    //LIKWID_MARKER_INIT;
     LIKWID_MARKER_START("norma");
     double norma = normaL2Residuo(SL);
     LIKWID_MARKER_STOP("norma");
-    //LIKWID_MARKER_CLOSE;
     #endif
     
- 
-
     double tempo_inicial, tempo_final;
 
     #ifdef gaussTEMPO
-	//tempo_inicial = timestamp();
 	int ret = gaussSeidel(SL,maxIter,P);
-	//tempo_final = timestamp();
-	//printf("%d %g\n",x, tempo_final - tempo_inicial);
 	#endif
 
 	#ifdef normaL2TEMPO
 	int ret = gaussSeidel(SL,maxIter,P);
-	//tempo_inicial = timestamp();
-	//double norma = normaL2Residuo(SL);
-	//tempo_final = timestamp();
-	//printf("%d %g\n",x, tempo_final - tempo_inicial);
 	#endif
 
     /*=========================== Monta saida do programa ========================*/
